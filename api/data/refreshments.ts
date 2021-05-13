@@ -1,9 +1,9 @@
 import { beer, hotDog, fruit } from './icons';
 
 export const types = [
-  { id: 1, name: 'Beer', icon: beer },
-  { id: 2, name: 'Hot dogs', icon: hotDog },
-  { id: 3, name: 'Fruits', icon: fruit },
+  { id: 1, name: 'Pivo', icon: beer },
+  { id: 2, name: 'Hot dog', icon: hotDog },
+  { id: 3, name: 'Ovoce', icon: fruit },
 ];
 
 export const validType = (id: number) => Number.isInteger(id) && id > 0 && id < 4;
