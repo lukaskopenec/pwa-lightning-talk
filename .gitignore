@@ -1,0 +1,8 @@
+node_modules/
+dist/
+
+# Azure Functions artifacts
+bin
+obj
+appsettings.json
+local.settings.json
