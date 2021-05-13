@@ -34,6 +34,9 @@ export class RefreshmentsComponent implements OnInit, OnDestroy {
   delivering!: Observable<boolean>;
   orderError!: Observable<ErrorCause | null>;
 
+  notificationsAllowed!: Observable<boolean>;
+  togglingNotifications!: Observable<boolean>;
+
   desiredQuantity = 1;
 
   constructor(private storeService: StoreService, private sanitizer: DomSanitizer) { }
@@ -64,6 +67,9 @@ export class RefreshmentsComponent implements OnInit, OnDestroy {
     this.puttingOrder = this.storeService.select(selectors.isPuttingOrder);
     this.delivering = this.storeService.select(selectors.isDelivering);
     this.orderError = this.storeService.select(selectors.selectOrderError);
+
+    this.notificationsAllowed = this.storeService.select(selectors.areNotificationsAllowed);
+    this.togglingNotifications = this.storeService.select(selectors.isTogglingNotifications);
   }
 
   ngOnDestroy(): void {
@@ -81,5 +87,9 @@ export class RefreshmentsComponent implements OnInit, OnDestroy {
 
   onClear(): void {
     this.storeService.dispatch(new Clear());
+  }
+
+  onToggleNotifications(): void {
+    this.storeService.dispatch(new ToggleNotifications());
   }
 }

@@ -1,10 +1,13 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import * as webPush from 'web-push';
 
 import { ErrorCause } from '../models';
 import { stocks, validType } from '../data/refreshments';
 
+webPush.setVapidDetails(process.env.subject, process.env.publicKey, process.env.privateKey);
+
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  const { refreshmentType, quantity } = req.body;
+  const { refreshmentType, quantity, notificationSubscription } = req.body;
   context.log(`Order ${quantity} of ${refreshmentType}`);
 
   if (!validType(refreshmentType)) {
@@ -40,6 +43,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   stocks.set(refreshmentType, available - quantity);
+
+  if (notificationSubscription) {
+    webPush.sendNotification(notificationSubscription, 'Vaše objednávka je připravena!');
+  }
 
   context.res = {
     // status: 200, /* Defaults to 200 */

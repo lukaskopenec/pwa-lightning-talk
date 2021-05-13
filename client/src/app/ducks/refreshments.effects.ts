@@ -5,7 +5,6 @@ import { of, from } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom, delay, ignoreElements, tap } from 'rxjs/operators';
 
 import { RefreshmentType, QuantityInfo, ErrorCause } from '@models';
-import { environment } from 'src/environments/environment';
 
 import {
   Actions as RefreshmentsActions,
@@ -26,6 +25,8 @@ import { extractError } from '../utilities/errors';
 import { StoreService } from '../store.service';
 
 const baseUrl = '/api/refreshments';
+
+let notificationSubscription: PushSubscription | null = null;
 
 declare global {
   interface Window {
@@ -62,7 +63,9 @@ export class Effects {
     ofType(RefreshmentsActions.PutOrder),
     map((action: PutOrder) => action.quantity),
     withLatestFrom(this.storeService.select(selectors.selectSelectedType)),
-    switchMap(([quantity, refreshmentType]) => this.httpClient.post(`${baseUrl}/order`, { quantity, refreshmentType }).pipe(
+    switchMap(([quantity, refreshmentType]) => this.httpClient.post(`${baseUrl}/order`, {
+      quantity, refreshmentType, notificationSubscription,
+    }).pipe(
       map(() => new PutOrderSuccess()),
       catchError(err => of(new PutOrderFail(extractError(err)))),
     )),
@@ -88,30 +91,30 @@ export class Effects {
   ));
 
   readonly checkNotifications = async () => {
-    const subscription = await window.swRegistration.pushManager.getSubscription();
-    this.storeService.dispatch(new NotificationsToggled(subscription !== null));
+    notificationSubscription = await window.swRegistration.pushManager.getSubscription();
+    this.storeService.dispatch(new NotificationsToggled(notificationSubscription !== null));
   }
 
   constructor(private readonly action$: Actions<ActionType>, private httpClient: HttpClient, private storeService: StoreService) {}
 }
 
 async function toggleNotifications(): Promise<boolean> {
-  let subscription = await window.swRegistration.pushManager.getSubscription();
-  if (!subscription) {
+  notificationSubscription = await window.swRegistration.pushManager.getSubscription();
+  if (!notificationSubscription) {
     try {
-      const applicationServerKey = urlB64ToUint8Array(''); // environment.applicationServerPublicKey);
-      subscription = await window.swRegistration.pushManager.subscribe({
+      const applicationServerKey = urlB64ToUint8Array('BHBJQ7Iq8ZoF6E7v0rkBmYDawrAn_n-ke3x956nZRexLdXmVGHihnAB-VKsMaIeV6dIV-MQPtWEeLR6L0ACRYfs');
+      notificationSubscription = await window.swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey
       });
 
-      return subscription !== null;
+      return notificationSubscription !== null;
     } catch (err) {
       console.error('Failed to subscribe to push manager', err);
       return false;
     }
   } else {
-    await subscription.unsubscribe();
+    await notificationSubscription.unsubscribe();
     return false;
   }
 }
