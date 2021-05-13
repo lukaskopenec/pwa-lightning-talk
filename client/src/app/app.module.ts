@@ -15,6 +15,7 @@ import { RefreshmentsComponent } from './refreshments/refreshments.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { environment } from '../environments/environment';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { environment } from '../environments/environment';
     PresentationComponent,
     RefreshmentsComponent,
     TopbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

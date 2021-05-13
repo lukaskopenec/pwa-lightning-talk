@@ -9,5 +9,5 @@ export function extractError(err: HttpErrorResponse): ErrorCause {
 
   const errorBody = err.error;
 
-  return errorBody.cause ? errorBody.cause : ErrorCause.NotSpecified;
+  return (errorBody && errorBody.cause) ? errorBody.cause : ErrorCause.NotSpecified;
 }
