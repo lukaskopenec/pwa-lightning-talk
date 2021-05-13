@@ -29,7 +29,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/routes.json"
+              "src/routes.json",
+              { "glob": "**/*", "input": "src/favicon", "output": "/" }
             ],
             "styles": [
               "src/styles.scss"
@@ -94,7 +95,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/routes.json"
+              "src/routes.json",
+              { "glob": "**/*", "input": "src/favicon", "output": "/" }
             ],
             "styles": [
               "src/styles.scss"
