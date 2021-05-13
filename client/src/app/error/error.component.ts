@@ -11,13 +11,13 @@ export class ErrorComponent {
   get text(): string {
     switch (this.cause) {
       case ErrorCause.UnknownId:
-        return 'Unknown refreshment type';
+        return 'Neznámý druh občerstvení';
       case ErrorCause.NotEnoughStocks:
-        return 'We don\'t have enough stocks to satisfy your order';
+        return 'Bohužel nemáme na skladě dostatek k uspokojení vaší objednávky';
       case ErrorCause.Offline:
-        return 'You are not connected to the internet';
+        return 'Nejste připojeni k internetu';
       default:
-        return 'Something bad happened';
+        return 'Stalo se něco nepěkného';
     }
   }
 }
