@@ -30,6 +30,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/routes.json",
+              "src/serviceWorker.js",
               { "glob": "**/*", "input": "src/favicon", "output": "/" }
             ],
             "styles": [
@@ -96,6 +97,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/routes.json",
+              "src/serviceWorker.js",
               { "glob": "**/*", "input": "src/favicon", "output": "/" }
             ],
             "styles": [

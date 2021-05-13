@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { of, from } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom, delay, ignoreElements } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, delay, ignoreElements, tap } from 'rxjs/operators';
 
 import { RefreshmentType, QuantityInfo, ErrorCause } from '@models';
 import { environment } from 'src/environments/environment';
@@ -27,6 +27,12 @@ import { StoreService } from '../store.service';
 
 const baseUrl = '/api/refreshments';
 
+declare global {
+  interface Window {
+    swRegistration: ServiceWorkerRegistration;
+    checkNotifications: () => Promise<void>;
+  }
+}
 declare global {
   interface Window {
     swRegistration: ServiceWorkerRegistration;
@@ -68,11 +74,10 @@ export class Effects {
     map(() => new Clear()),
   ));
 
-  /*readonly initNotificationsState = createEffect(() => this.action$.pipe(
+  readonly initNotificationsState = createEffect(() => this.action$.pipe(
     ofType('@ngrx/effects/init'),
-    map(() => window.checkNotifications = this.checkNotifications),
-    ignoreElements(),
-  ));*/
+    tap(() => window.checkNotifications = this.checkNotifications),
+  ), {dispatch: false});
 
   readonly toggleNotifications = createEffect(() => this.action$.pipe(
     ofType(RefreshmentsActions.ToggleNotifications),
@@ -82,11 +87,10 @@ export class Effects {
     )),
   ));
 
-  /*readonly checkNotifications = async () => {
+  readonly checkNotifications = async () => {
     const subscription = await window.swRegistration.pushManager.getSubscription();
-    await saveSubscription(subscription);
     this.storeService.dispatch(new NotificationsToggled(subscription !== null));
-  }*/
+  }
 
   constructor(private readonly action$: Actions<ActionType>, private httpClient: HttpClient, private storeService: StoreService) {}
 }
@@ -101,7 +105,6 @@ async function toggleNotifications(): Promise<boolean> {
         applicationServerKey
       });
 
-      await saveSubscription(subscription);
       return subscription !== null;
     } catch (err) {
       console.error('Failed to subscribe to push manager', err);
@@ -109,19 +112,8 @@ async function toggleNotifications(): Promise<boolean> {
     }
   } else {
     await subscription.unsubscribe();
-    await saveSubscription(null);
     return false;
   }
-}
-
-async function saveSubscription(subscription: PushSubscription | null): Promise<void> {
-  await fetch('/api/notifications/subscriptions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ subscription }),
-  });
 }
 
 const urlB64ToUint8Array = (base64String: string) => {

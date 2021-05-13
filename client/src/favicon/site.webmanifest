@@ -17,6 +17,6 @@
     ],
     "theme_color": "#00b880",
     "background_color": "#00b880",
-    "start_url": "https://agreeable-moss-00bc4e603.azurestaticapps.net/",
+    "start_url": "/",
     "display": "standalone"
 }
