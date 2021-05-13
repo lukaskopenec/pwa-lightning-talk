@@ -1,0 +1,33 @@
+.presentation-container {
+  margin: 0 auto;
+  max-width: 120rem;
+
+  img {
+    width: 100%;
+  }
+}
+
+.presentation-controls {
+  margin-top: 2rem;
+  text-align: center;
+
+  button {
+    background: transparent;
+    color: $c-brand;
+
+    &:disabled {
+      opacity: .6;
+    }
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    margin: 0 auto;
+    fill: currentColor;
+  }
+}

@@ -29,5 +29,17 @@
 <path d="M30 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path>
 <path d="M32 28h-24v-4l7-12 8 10h2l7-6z"></path>
 </symbol>
+<symbol id="icon-backward2" viewBox="0 0 32 32">
+<path d="M18 5v10l10-10v22l-10-10v10l-11-11z"></path>
+</symbol>
+<symbol id="icon-forward3" viewBox="0 0 32 32">
+<path d="M16 27v-10l-10 10v-22l10 10v-10l11 11z"></path>
+</symbol>
+<symbol id="icon-first" viewBox="0 0 32 32">
+<path d="M4 28v-24h4v11l10-10v10l10-10v22l-10-10v10l-10-10v11z"></path>
+</symbol>
+<symbol id="icon-last" viewBox="0 0 32 32">
+<path d="M28 4v24h-4v-11l-10 10v-10l-10 10v-22l10 10v-10l10 10v-11z"></path>
+</symbol>
 </defs>
 </svg>
