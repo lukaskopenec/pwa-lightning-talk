@@ -4,22 +4,22 @@
     <img [src]="currentSlideUrl" alt="Snímek prezentace">
   </div>
   <div class="presentation-controls">
-    <button type="button" (click)="onFirstSlide()" [disabled]="currentSlideId === 1">
+    <button type="button" aria-label="First slide" (click)="onFirstSlide()" [disabled]="currentSlideId === 1">
       <svg>
         <use xlink:href="assets/img/sprite.svg#icon-first" />
       </svg>
     </button>
-    <button type="button" (click)="onPrevSlide()" [disabled]="currentSlideId === 1">
+    <button type="button" aria-label="Prev slide" (click)="onPrevSlide()" [disabled]="currentSlideId === 1">
       <svg>
         <use xlink:href="assets/img/sprite.svg#icon-backward2" />
       </svg>
     </button>
-    <button type="button" (click)="onNextSlide()" [disabled]="currentSlideId === maxSlides">
+    <button type="button" aria-label="Next slide" (click)="onNextSlide()" [disabled]="currentSlideId === maxSlides">
       <svg>
         <use xlink:href="assets/img/sprite.svg#icon-forward3" />
       </svg>
     </button>
-    <button type="button" (click)="onLastSlide()" [disabled]="currentSlideId === maxSlides">
+    <button type="button" aria-label="Last slide" (click)="onLastSlide()" [disabled]="currentSlideId === maxSlides">
       <svg>
         <use xlink:href="assets/img/sprite.svg#icon-last" />
       </svg>
